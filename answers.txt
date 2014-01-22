@@ -1,0 +1,37 @@
+Name: Xi Han
+UCLA ID: 504136747
+
+
+-------------------------------------------------------------------------------
+
+Response to Exercise 1:
+YES.
+Because the returned value has been saved into %eax register of 
+the process descriptor.
+
+
+Anything else you'd like us to know:
+Decription of Exercise 3:
+I add a "waiter" field indicating the process waiting for a process. When a 
+process is waiting for another process, the waitee set its waiter to be the 
+waiting process and block the waiter. Then when the waitee exit, it gives its 
+return value back to the waiter, sets it to be runnable and set itself to be 
+empty.
+
+
+Extra credit exercises:
+
+Exercise 5:
+void start(void) {
+    int x = 0;  /* note that local variable x lives on the stack */
+    int * volatile t = &x;
+    pid_t p = sys_fork();
+    if (p == 0) {
+       	(*t) = 1; // This will not change x in parent process
+				// if the processes are well isolated.
+		x = 1;
+    } else if (p > 0)
+        sys_wait(p); // assume blocking implementation
+    app_printf("%d", x);
+    sys_exit(0);
+}
